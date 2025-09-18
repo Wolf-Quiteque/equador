@@ -29,6 +29,40 @@
             --nav-bar-height: 70px;
         }
 
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --primary-bg: rgba(15, 15, 15, 0.95);
+            --secondary-bg: rgba(25, 25, 25, 0.9);
+            --card-bg: rgba(30, 30, 30, 0.8);
+            --primary-blue: #00ff9d;
+            --secondary-blue: #00e68a;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --accent: #00ff9d;
+            --border-color: rgba(0, 255, 157, 0.2);
+        }
+
+        /* Glass Effect for Dark Mode */
+        [data-theme="dark"] .ride-card,
+        [data-theme="dark"] .ride-widget,
+        [data-theme="dark"] .welcome-widget,
+        [data-theme="dark"] .booking-form,
+        [data-theme="dark"] .search-bar,
+        [data-theme="dark"] .stat-card,
+        [data-theme="dark"] .action-btn {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(30, 30, 30, 0.7) !important;
+            border: 1px solid rgba(0, 255, 157, 0.15) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        [data-theme="dark"] .device-frame {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
         body {
             background-color: #f5f5f5;
             color: var(--text-primary);
@@ -768,6 +802,9 @@
                 <div class="logo-text">Equador</div>
             </div>
             <div class="header-actions">
+                <button class="header-action-btn theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
                 <button class="header-action-btn">
                     <i class="fas fa-bell"></i>
                     <span class="notification-badge">3</span>
@@ -1750,6 +1787,37 @@
 
         // Initialize map when page loads
         document.addEventListener('DOMContentLoaded', initMap);
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        // Load saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            html.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        // Theme toggle event listener
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        // Update theme toggle icon
+        function updateThemeIcon(theme) {
+            const icon = themeToggle.querySelector('i');
+            if (theme === 'dark') {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
+        }
     </script>
 </body>
 </html>
