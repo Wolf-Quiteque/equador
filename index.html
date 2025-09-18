@@ -700,6 +700,52 @@
         .pulse {
             animation: notificationPulse 2s infinite;
         }
+
+        /* Route Summary for Booking Page */
+        .route-summary {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .route-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .route-distance {
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .route-price {
+            color: var(--primary-green);
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .route-details {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .route-icon {
+            color: var(--primary-green);
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -818,9 +864,19 @@
             <div id="ride-page" class="page">
                 <h2 class="page-title">Book a Ride</h2>
                 
-                <div class="map-preview" id="ride-map-preview">
+                <!-- <div class="map-preview" id="ride-map-preview">
+                    <div class="route-summary">
+                        <div class="route-info">
+                            <div class="route-distance">2.3 km • 8 min</div>
+                            <div class="route-price">$12.50</div>
+                        </div>
+                        <div class="route-details">
+                            <i class="fas fa-route route-icon"></i>
+                            <span>Via Marginal • Luanda</span>
+                        </div>
+                    </div>
                 </div>
-                
+                 -->
                 <div class="booking-form">
                     <div class="form-group">
                         <label class="form-label">Pickup Location</label>
