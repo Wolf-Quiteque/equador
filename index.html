@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equador - Corporate Car Pooling</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         * {
             margin: 0;
@@ -17,7 +18,7 @@
         :root {
             --primary-bg: #121212;
             --secondary-bg: #1e1e1e;
-            --card-bg: rgba(37, 37, 37, 0.8);
+            --card-bg: #252525;
             --primary-green: #00ff9d;
             --secondary-green: #00cc7a;
             --text-primary: #ffffff;
@@ -25,8 +26,6 @@
             --accent: #3700ff;
             --status-bar-height: 30px;
             --nav-bar-height: 70px;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         body {
@@ -67,7 +66,7 @@
             padding: 0 20px;
             color: var(--text-primary);
             font-size: 14px;
-            border-bottom: 1px solid var(--glass-border);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .status-bar .time {
@@ -90,7 +89,7 @@
             justify-content: space-between;
             align-items: center;
             background-color: var(--secondary-bg);
-            border-bottom: 1px solid var(--glass-border);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .logo {
@@ -172,13 +171,12 @@
 
         /* Welcome Widget */
         .welcome-widget {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2a2a2a 100%);
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
         }
@@ -211,14 +209,13 @@
 
         /* Search Bar */
         .search-bar {
-            background-color: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background-color: rgba(0, 0, 0, 0.2);
             border-radius: 15px;
             padding: 12px 15px;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .search-bar i {
@@ -247,8 +244,7 @@
         }
 
         .action-btn {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2a2a2a 100%);
             border: none;
             border-radius: 15px;
             padding: 15px;
@@ -259,7 +255,7 @@
             gap: 10px;
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .action-btn:hover {
@@ -279,13 +275,12 @@
 
         /* Ride Status Widget */
         .ride-widget {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2a2a2a 100%);
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 25px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .widget-header {
@@ -311,7 +306,7 @@
             border-radius: 15px;
             padding: 15px;
             margin-bottom: 15px;
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: transform 0.3s;
         }
 
@@ -347,12 +342,11 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: rgba(30, 30, 30, 0.9);
-            backdrop-filter: blur(10px);
+            background-color: var(--secondary-bg);
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
-            border-top: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             height: var(--nav-bar-height);
             z-index: 1000;
             max-width: 430px;
@@ -386,17 +380,16 @@
             font-size: 24px;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 1px solid var(--glass-border);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Ride Booking Page */
         .booking-form {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2a2a2a 100%);
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .form-group {
@@ -414,7 +407,7 @@
             width: 100%;
             padding: 12px 15px;
             background-color: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             color: var(--text-primary);
             font-size: 16px;
@@ -479,12 +472,11 @@
         }
 
         .stat-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2a2a2a 100%);
             border-radius: 15px;
             padding: 15px;
             text-align: center;
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .stat-value {
@@ -510,7 +502,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .map-points {
@@ -626,7 +618,7 @@
             gap: 15px;
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .driver-avatar {
@@ -709,19 +701,58 @@
         .pulse {
             animation: notificationPulse 2s infinite;
         }
+
+        /* Route Summary for Booking Page */
+        .route-summary {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .route-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .route-distance {
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .route-price {
+            color: var(--primary-green);
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .route-details {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .route-icon {
+            color: var(--primary-green);
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
     <div class="device-frame">
         <!-- Status Bar -->
-        <div class="status-bar">
-            <div class="time" id="current-time">4:20</div>
-            <div class="icons">
-                <i class="fas fa-signal"></i>
-                <i class="fas fa-wifi"></i>
-                <i class="fas fa-battery-three-quarters"></i>
-            </div>
-        </div>
+   
 
         <!-- App Header -->
         <div class="app-header">
@@ -753,12 +784,7 @@
                     <input type="text" placeholder="Where would you like to go?">
                 </div>
 
-                <div class="map-preview">
-                    <div class="map-points">
-                        <div class="point-a"></div>
-                        <div class="point-b"></div>
-                        <div class="route-line"></div>
-                    </div>
+                <div class="map-preview" id="map-preview">
                     <div class="vehicle-info">
                         <i class="fas fa-car vehicle-icon"></i>
                         <span class="vehicle-details">5 min away</span>
@@ -766,19 +792,19 @@
                 </div>
 
                 <div class="quick-actions">
-                    <button class="action-btn" data-page="ride-page">
+                    <button class="action-btn">
                         <div class="action-icon"><i class="fas fa-taxi"></i></div>
                         <div class="action-text">Book Ride</div>
                     </button>
-                    <button class="action-btn" data-page="ride-page">
+                    <button class="action-btn">
                         <div class="action-icon"><i class="fas fa-calendar"></i></div>
                         <div class="action-text">Schedule</div>
                     </button>
-                    <button class="action-btn" data-page="ride-page">
+                    <button class="action-btn">
                         <div class="action-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <div class="action-text">Destinations</div>
                     </button>
-                    <button class="action-btn" data-page="ride-page">
+                    <button class="action-btn">
                         <div class="action-icon"><i class="fas fa-users"></i></div>
                         <div class="action-text">Carpool</div>
                     </button>
@@ -832,14 +858,19 @@
             <div id="ride-page" class="page">
                 <h2 class="page-title">Book a Ride</h2>
                 
-                <div class="map-preview">
-                    <div class="map-points">
-                        <div class="point-a"></div>
-                        <div class="point-b"></div>
-                        <div class="route-line"></div>
+                <!-- <div class="map-preview" id="ride-map-preview">
+                    <div class="route-summary">
+                        <div class="route-info">
+                            <div class="route-distance">2.3 km • 8 min</div>
+                            <div class="route-price">$12.50</div>
+                        </div>
+                        <div class="route-details">
+                            <i class="fas fa-route route-icon"></i>
+                            <span>Via Marginal • Luanda</span>
+                        </div>
                     </div>
                 </div>
-                
+                 -->
                 <div class="booking-form">
                     <div class="form-group">
                         <label class="form-label">Pickup Location</label>
@@ -946,6 +977,331 @@
                     </button>
                 </div>
             </div>
+
+            <!-- History Page -->
+            <div id="history-page" class="page">
+                <h2 class="page-title">Ride History</h2>
+
+                <div class="ride-widget">
+                    <div class="widget-header">
+                        <div class="widget-title">Recent Rides</div>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Office Complex A</div>
+                            <div class="ride-time">Yesterday, 5:30 PM</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>$12.50 • 2.3 miles</div>
+                            <div class="rating">4.9 ★</div>
+                        </div>
+                        <div class="driver-info">
+                            <div class="driver-avatar">DM</div>
+                            <div class="driver-details">
+                                <h4>David Miller <span class="rating">4.9 ★</span></h4>
+                                <p>Hyundai Ioniq 5 • G-RAX 478</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Tech Park B</div>
+                            <div class="ride-time">Oct 15, 8:15 AM</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>$8.75 • 1.8 miles</div>
+                            <div class="rating">4.8 ★</div>
+                        </div>
+                        <div class="driver-info">
+                            <div class="driver-avatar">SJ</div>
+                            <div class="driver-details">
+                                <h4>Sarah Johnson <span class="rating">4.8 ★</span></h4>
+                                <p>Toyota Prius • A-BCD 123</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Airport Terminal 2</div>
+                            <div class="ride-time">Oct 12, 2:45 PM</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>$25.00 • 8.5 miles</div>
+                            <div class="rating">5.0 ★</div>
+                        </div>
+                        <div class="driver-info">
+                            <div class="driver-avatar">MR</div>
+                            <div class="driver-details">
+                                <h4>Michael Rodriguez <span class="rating">5.0 ★</span></h4>
+                                <p>Mercedes E-Class • VIP-001</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Total Rides</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">$487</div>
+                        <div class="stat-label">Total Spent</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">4.9</div>
+                        <div class="stat-label">Avg Rating</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Page -->
+            <div id="messages-page" class="page">
+                <h2 class="page-title">Messages</h2>
+
+                <div class="ride-widget">
+                    <div class="widget-header">
+                        <div class="widget-title">Recent Conversations</div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">David Miller</div>
+                            <div class="ride-time">2 min ago</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Thanks for the great ride! Safe travels.</div>
+                            <div><span class="badge">Driver</span></div>
+                        </div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Equador Support</div>
+                            <div class="ride-time">1 hour ago</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Your ride receipt is ready for download.</div>
+                            <div><span class="badge">Support</span></div>
+                        </div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Sarah Johnson</div>
+                            <div class="ride-time">Yesterday</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Have a great day at work!</div>
+                            <div><span class="badge">Driver</span></div>
+                        </div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Carpool Group A</div>
+                            <div class="ride-time">2 days ago</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Meeting at 9 AM tomorrow. Don't be late!</div>
+                            <div><span class="badge">Group</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-plus"></i></div>
+                        <div class="action-text">New Message</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-users"></i></div>
+                        <div class="action-text">Group Chat</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-phone"></i></div>
+                        <div class="action-text">Emergency</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-headset"></i></div>
+                        <div class="action-text">Support</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Notifications Page -->
+            <div id="notifications-page" class="page">
+                <h2 class="page-title">Notifications</h2>
+
+                <div class="ride-widget">
+                    <div class="widget-header">
+                        <div class="widget-title">Recent Notifications</div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Ride Confirmed</div>
+                            <div class="ride-time">2 min ago</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Your ride to Office Complex A has been confirmed.</div>
+                            <div><span class="badge">Ride</span></div>
+                        </div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Driver Arriving</div>
+                            <div class="ride-time">5 min ago</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>David Miller is arriving at your pickup location.</div>
+                            <div><span class="badge">Driver</span></div>
+                        </div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Payment Processed</div>
+                            <div class="ride-time">1 hour ago</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>$12.50 has been charged to your corporate account.</div>
+                            <div><span class="badge">Payment</span></div>
+                        </div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">New Feature Available</div>
+                            <div class="ride-time">2 hours ago</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Try our new carpool matching feature!</div>
+                            <div><span class="badge">Update</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-bell-slash"></i></div>
+                        <div class="action-text">Mute All</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-trash"></i></div>
+                        <div class="action-text">Clear All</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-cog"></i></div>
+                        <div class="action-text">Settings</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-question-circle"></i></div>
+                        <div class="action-text">Help</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settings-page" class="page">
+                <h2 class="page-title">Settings</h2>
+
+                <div class="ride-widget">
+                    <div class="widget-header">
+                        <div class="widget-title">Account Settings</div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Profile Information</div>
+                            <div class="ride-time">Edit</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Update your personal information and preferences</div>
+                        </div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Payment Methods</div>
+                            <div class="ride-time">Manage</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Add or remove payment methods</div>
+                        </div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Privacy Settings</div>
+                            <div class="ride-time">Configure</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Control your privacy and data sharing preferences</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ride-widget">
+                    <div class="widget-header">
+                        <div class="widget-title">App Preferences</div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Notifications</div>
+                            <div class="ride-time">On</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Receive ride updates and promotional messages</div>
+                        </div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Location Services</div>
+                            <div class="ride-time">On</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Allow access to location for better ride matching</div>
+                        </div>
+                    </div>
+
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Theme</div>
+                            <div class="ride-time">Dark</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Choose your preferred app theme</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-sign-out-alt"></i></div>
+                        <div class="action-text">Logout</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-info-circle"></i></div>
+                        <div class="action-text">About</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-star"></i></div>
+                        <div class="action-text">Rate App</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-share"></i></div>
+                        <div class="action-text">Share</div>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- Bottom Navigation -->
@@ -958,6 +1314,14 @@
                 <i class="fas fa-car nav-icon"></i>
                 <span>Rides</span>
             </a>
+            <a href="#" class="nav-item" data-page="history-page">
+                <i class="fas fa-history nav-icon"></i>
+                <span>History</span>
+            </a>
+            <a href="#" class="nav-item" data-page="messages-page">
+                <i class="fas fa-comments nav-icon"></i>
+                <span>Messages</span>
+            </a>
             <a href="#" class="nav-item" data-page="profile-page">
                 <i class="fas fa-user nav-icon"></i>
                 <span>Profile</span>
@@ -965,6 +1329,7 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Update date and time
         function updateDateTime() {
@@ -986,50 +1351,31 @@
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
-                
+                console.log('Navigation clicked:', this.getAttribute('data-page'));
+
                 // Remove active class from all items
                 document.querySelectorAll('.nav-item').forEach(navItem => {
                     navItem.classList.remove('active');
                 });
-                
+
                 // Add active class to clicked item
                 this.classList.add('active');
-                
+
                 // Hide all pages
                 document.querySelectorAll('.page').forEach(page => {
                     page.style.display = 'none';
                 });
-                
+
                 // Show the selected page
                 const pageId = this.getAttribute('data-page');
-                document.getElementById(pageId).style.display = 'block';
-                
-                // Scroll to top
-                document.querySelector('.main-content').scrollTop = 0;
-            });
-        });
-        
-        // Quick action buttons - navigate to ride page
-        document.querySelectorAll('.action-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const targetPage = this.getAttribute('data-page');
-                
-                // Hide all pages
-                document.querySelectorAll('.page').forEach(page => {
-                    page.style.display = 'none';
-                });
-                
-                // Show target page
-                document.getElementById(targetPage).style.display = 'block';
-                
-                // Update navigation
-                document.querySelectorAll('.nav-item').forEach(navItem => {
-                    navItem.classList.remove('active');
-                    if (navItem.getAttribute('data-page') === targetPage) {
-                        navItem.classList.add('active');
-                    }
-                });
-                
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.style.display = 'block';
+                    console.log('Switched to page:', pageId);
+                } else {
+                    console.error('Page not found:', pageId);
+                }
+
                 // Scroll to top
                 document.querySelector('.main-content').scrollTop = 0;
             });
@@ -1039,28 +1385,169 @@
         document.querySelectorAll('.header-action-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const icon = this.querySelector('i');
-                
+
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.style.display = 'none';
+                });
+
                 // Remove active class from all nav items
                 document.querySelectorAll('.nav-item').forEach(navItem => {
                     navItem.classList.remove('active');
                 });
-                
+
                 // Navigate based on button type
                 if (icon.classList.contains('fa-bell')) {
                     // Notifications button
-                    alert("Notifications page would open here");
+                    document.getElementById('notifications-page').style.display = 'block';
                 } else if (icon.classList.contains('fa-cog')) {
                     // Settings button
-                    alert("Settings page would open here");
+                    document.getElementById('settings-page').style.display = 'block';
                 }
+
+                // Scroll to top
+                document.querySelector('.main-content').scrollTop = 0;
+            });
+        });
+
+        // Quick action buttons - navigate to ride page
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.style.display = 'none';
+                });
+
+                // Show ride page
+                document.getElementById('ride-page').style.display = 'block';
+
+                // Update navigation
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                    if (navItem.getAttribute('data-page') === 'ride-page') {
+                        navItem.classList.add('active');
+                    }
+                });
+
+                // Scroll to top
+                document.querySelector('.main-content').scrollTop = 0;
             });
         });
         
-        // Prevent elastic scrolling on iOS
+        // Prevent elastic scrolling on iOS but allow scrolling in main content
         document.body.addEventListener('touchmove', function(e) {
-            if (e.target === document.querySelector('.main-content')) return;
+            // Allow scrolling if the touch is within the main content area
+            if (e.target.closest('.main-content')) return;
+            // Prevent elastic scrolling on other elements
             e.preventDefault();
         }, { passive: false });
+
+        // Initialize interactive map
+        function initMap() {
+            // Angola coordinates (Luanda)
+            const angolaCenter = [-8.8383, 13.2344];
+
+            // Create map
+            const map = L.map('map-preview', {
+                center: angolaCenter,
+                zoom: 12,
+                zoomControl: false,
+                attributionControl: false,
+                scrollWheelZoom: false,
+                doubleClickZoom: false,
+                boxZoom: false,
+                keyboard: false,
+                dragging: false,
+                touchZoom: false
+            });
+
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                opacity: 0.8
+            }).addTo(map);
+
+            // Define route points in Angola
+            const pickupPoint = [-8.8200, 13.2400]; // Near Luanda center
+            const destinationPoint = [-8.8600, 13.2200]; // Office area
+
+            // Create custom icons
+            const pickupIcon = L.divIcon({
+                html: '<div style="background: #00ff9d; width: 20px; height: 20px; border-radius: 50%; border: 3px solid #000; box-shadow: 0 0 10px rgba(0,255,157,0.5);"></div>',
+                className: 'custom-marker',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10]
+            });
+
+            const destinationIcon = L.divIcon({
+                html: '<div style="background: #3700ff; width: 20px; height: 20px; border-radius: 50%; border: 3px solid #000; box-shadow: 0 0 10px rgba(55,0,255,0.5);"></div>',
+                className: 'custom-marker',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10]
+            });
+
+            const carIcon = L.divIcon({
+                html: '<div style="background: #ff6b35; width: 16px; height: 16px; border-radius: 50%; border: 2px solid #000; display: flex; align-items: center; justify-content: center; font-size: 10px;">🚗</div>',
+                className: 'custom-marker',
+                iconSize: [16, 16],
+                iconAnchor: [8, 8]
+            });
+
+            // Add markers
+            L.marker(pickupPoint, {icon: pickupIcon}).addTo(map)
+                .bindPopup('<b>Pickup Location</b><br/>Your current location');
+
+            L.marker(destinationPoint, {icon: destinationIcon}).addTo(map)
+                .bindPopup('<b>Destination</b><br/>Office Complex A');
+
+            // Add moving car marker
+            const carMarker = L.marker(pickupPoint, {icon: carIcon}).addTo(map);
+
+            // Create animated route
+            const routePoints = [
+                pickupPoint,
+                [-8.8250, 13.2350],
+                [-8.8300, 13.2300],
+                [-8.8350, 13.2250],
+                [-8.8400, 13.2220],
+                [-8.8450, 13.2200],
+                destinationPoint
+            ];
+
+            // Draw route line
+            L.polyline(routePoints, {
+                color: '#00ff9d',
+                weight: 4,
+                opacity: 0.8,
+                dashArray: '10, 10',
+                lineCap: 'round'
+            }).addTo(map);
+
+            // Animate car along route
+            let currentPointIndex = 0;
+            function animateCar() {
+                if (currentPointIndex < routePoints.length - 1) {
+                    currentPointIndex++;
+                    carMarker.setLatLng(routePoints[currentPointIndex]);
+                } else {
+                    currentPointIndex = 0;
+                    carMarker.setLatLng(routePoints[0]);
+                }
+            }
+
+            // Start car animation
+            setInterval(animateCar, 2000);
+
+            // Fit map to show entire route
+            const group = new L.featureGroup([
+                L.marker(pickupPoint),
+                L.marker(destinationPoint)
+            ]);
+            map.fitBounds(group.getBounds().pad(0.1));
+        }
+
+        // Initialize map when page loads
+        document.addEventListener('DOMContentLoaded', initMap);
     </script>
 </body>
 </html>
