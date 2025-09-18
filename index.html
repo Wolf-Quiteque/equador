@@ -785,7 +785,6 @@
                         </div>
                         <div class="ride-details">
                             <div>2.3 miles</div>
-                            <div>$12.50</div>
                         </div>
                         <div class="driver-info">
                             <div class="driver-avatar">DM</div>
@@ -849,7 +848,6 @@
                     <div class="ride-card">
                         <div class="ride-info">
                             <div class="ride-destination">Office Express</div>
-                            <div class="ride-time">$12.50</div>
                         </div>
                         <div class="ride-details">
                             <div>4 seats • 5 min away</div>
@@ -859,7 +857,6 @@
                     <div class="ride-card">
                         <div class="ride-info">
                             <div class="ride-destination">Executive Car</div>
-                            <div class="ride-time">$18.75</div>
                         </div>
                         <div class="ride-details">
                             <div>4 seats • 8 min away</div>
@@ -1018,9 +1015,11 @@
             });
         });
         
-        // Prevent elastic scrolling on iOS
+        // Prevent elastic scrolling on iOS but allow scrolling in main content
         document.body.addEventListener('touchmove', function(e) {
-            if (e.target === document.querySelector('.main-content')) return;
+            // Allow scrolling if the touch is within the main content area
+            if (e.target.closest('.main-content')) return;
+            // Prevent elastic scrolling on other elements
             e.preventDefault();
         }, { passive: false });
 
