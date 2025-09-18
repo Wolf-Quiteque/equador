@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equador - Corporate Car Pooling</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary-bg: #121212;
+            --secondary-bg: #1e1e1e;
+            --card-bg: #252525;
+            --primary-green: #00ff9d;
+            --secondary-green: #00cc7a;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent: #3700ff;
+            --status-bar-height: 30px;
+            --nav-bar-height: 70px;
+        }
+
+        body {
+            background-color: #000;
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Mobile Device Frame */
+        .device-frame {
+            width: 100%;
+            height: 100vh;
+            max-width: 430px;
+            max-height: 932px;
+            background: var(--primary-bg);
+            border-radius: 0;
+            overflow: hidden;
+            position: relative;
+            border: none;
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Status Bar (iOS style) */
+        .status-bar {
+            height: var(--status-bar-height);
+            background-color: var(--primary-bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: var(--text-primary);
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .status-bar .time {
+            font-weight: 600;
+        }
+
+        .status-bar .icons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .status-bar .icons i {
+            margin-left: 2px;
+        }
+
+        /* App Header */
+        .app-header {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--secondary-bg);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-green), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-icon {
+            color: var(--primary-green);
+            font-size: 20px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-action-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .header-action-btn:hover {
+            color: var(--primary-green);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--primary-green);
+            color: #000;
+            font-size: 10px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            padding-bottom: calc(var(--nav-bar-height) + 10px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        #home-page {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Welcome Widget */
+        .welcome-widget {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2a2a2a 100%);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-widget::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(0, 255, 157, 0.1) 0%, rgba(0, 255, 157, 0) 70%);
+        }
+
+        .welcome-text {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .user-name {
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        .date-time {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .search-bar i {
+            color: var(--text-secondary);
+            margin-right: 10px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2a2a2a 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 15px;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.1);
+        }
+
+        .action-icon {
+            font-size: 24px;
+            color: var(--primary-green);
+        }
+
+        .action-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Ride Status Widget */
+        .ride-widget {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2a2a2a 100%);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .widget-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .view-all {
+            color: var(--primary-green);
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .ride-card {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .ride-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .ride-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .ride-destination {
+            font-weight: 500;
+        }
+
+        .ride-time {
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        .ride-details {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--secondary-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            height: var(--nav-bar-height);
+            z-index: 1000;
+            max-width: 430px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s;
+            padding: 5px 15px;
+            border-radius: 10px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-green);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        /* Other Pages */
+        .page-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Ride Booking Page */
+        .booking-form {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2a2a2a 100%);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Profile Page */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            color: white;
+        }
+
+        .profile-info h2 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            color: var(--text-secondary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2a2a2a 100%);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Map Preview */
+        .map-preview {
+            height: 200px;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .map-points {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .point-a, .point-b {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .point-a {
+            background-color: var(--primary-green);
+            top: 40px;
+            left: 80px;
+        }
+
+        .point-b {
+            background-color: var(--accent);
+            bottom: 60px;
+            right: 70px;
+        }
+
+        .point-a::after, .point-b::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 157, 0.2);
+            top: -4px;
+            left: -4px;
+            animation: pulse 2s infinite;
+        }
+
+        .route-line {
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            background-color: var(--primary-green);
+            top: 50%;
+            left: 20%;
+            transform: rotate(-30deg);
+            border-radius: 2px;
+        }
+
+        .route-line::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-green);
+            border-radius: 2px;
+            animation: routeAnimation 3s infinite;
+        }
+
+        @keyframes routeAnimation {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 0.4; }
+            100% { transform: scale(0.8); opacity: 0.8; }
+        }
+
+        /* iOS-like notch for newer phones */
+        @media only screen and (min-width: 375px) and (max-width: 430px) {
+            .device-frame {
+                border-radius: 0;
+            }
+            
+            .status-bar {
+                padding-top: 15px;
+            }
+        }
+
+        /* Scrollbar styling */
+        .main-content::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .main-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: var(--primary-green);
+            border-radius: 10px;
+        }
+
+        /* Safe area insets for notch phones */
+        @supports(padding: max(0px)) {
+            .device-frame {
+                padding-left: max(0px, env(safe-area-inset-left));
+                padding-right: max(0px, env(safe-area-inset-right));
+            }
+            
+            .bottom-nav {
+                padding-bottom: max(10px, env(safe-area-inset-bottom));
+            }
+        }
+
+        /* New Features */
+        .driver-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .driver-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, #6200ea 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            color: white;
+        }
+
+        .driver-details h4 {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .driver-details p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .rating {
+            color: var(--primary-green);
+            font-size: 14px;
+        }
+
+        .vehicle-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .vehicle-icon {
+            color: var(--primary-green);
+            font-size: 18px;
+        }
+
+        .vehicle-details {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .progress-bar {
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-green), var(--accent));
+            border-radius: 3px;
+            width: 65%;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: var(--primary-green);
+            color: #000;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        /* Animation for notification */
+        @keyframes notificationPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: notificationPulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="device-frame">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="time" id="current-time">4:20</div>
+            <div class="icons">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-three-quarters"></i>
+            </div>
+        </div>
+
+        <!-- App Header -->
+        <div class="app-header">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-car"></i></div>
+                <div class="logo-text">Equador</div>
+            </div>
+            <div class="header-actions">
+                <button class="header-action-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <button class="header-action-btn"><i class="fas fa-cog"></i></button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Home Page -->
+            <div id="home-page" class="page">
+                <div class="welcome-widget">
+                    <div class="welcome-text">Welcome back, <span class="user-name">Alex Morgan</span>!</div>
+                    <div class="date-time">Monday, October 16 • 4:20 PM</div>
+                    <div>Ready for your next ride?</div>
+                </div>
+
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Where would you like to go?">
+                </div>
+
+                <div class="map-preview">
+                    <div class="map-points">
+                        <div class="point-a"></div>
+                        <div class="point-b"></div>
+                        <div class="route-line"></div>
+                    </div>
+                    <div class="vehicle-info">
+                        <i class="fas fa-car vehicle-icon"></i>
+                        <span class="vehicle-details">5 min away</span>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-taxi"></i></div>
+                        <div class="action-text">Book Ride</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-calendar"></i></div>
+                        <div class="action-text">Schedule</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="action-text">Destinations</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-users"></i></div>
+                        <div class="action-text">Carpool</div>
+                    </button>
+                </div>
+
+                <div class="ride-widget">
+                    <div class="widget-header">
+                        <div class="widget-title">Active Ride <span class="badge pulse">In Progress</span></div>
+                        <a href="#" class="view-all">View Details</a>
+                    </div>
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">To: Office Complex A</div>
+                            <div class="ride-time">ETA: 8 min</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                        <div class="ride-details">
+                            <div>2.3 miles</div>
+                            <div>$12.50</div>
+                        </div>
+                        <div class="driver-info">
+                            <div class="driver-avatar">DM</div>
+                            <div class="driver-details">
+                                <h4>David Miller <span class="rating">4.9 ★</span></h4>
+                                <p>Hyundai Ioniq 5 • G-RAX 478</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ride-widget">
+                    <div class="widget-header">
+                        <div class="widget-title">Upcoming Rides</div>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">To: Tech Park B</div>
+                            <div class="ride-time">5:45 PM</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>3 passengers</div>
+                            <div>Confirmed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ride Booking Page -->
+            <div id="ride-page" class="page">
+                <h2 class="page-title">Book a Ride</h2>
+                
+                <div class="map-preview">
+                    <div class="map-points">
+                        <div class="point-a"></div>
+                        <div class="point-b"></div>
+                        <div class="route-line"></div>
+                    </div>
+                </div>
+                
+                <div class="booking-form">
+                    <div class="form-group">
+                        <label class="form-label">Pickup Location</label>
+                        <input type="text" class="form-input" placeholder="Enter pickup location" value="Current Location">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Destination</label>
+                        <input type="text" class="form-input" placeholder="Enter destination" value="Office Complex A">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">When</label>
+                        <input type="text" class="form-input" placeholder="Now">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ride Type</label>
+                        <input type="text" class="form-input" placeholder="Executive (4 passengers)">
+                    </div>
+                    <button class="submit-btn">Confirm Ride</button>
+                </div>
+                
+                <div class="ride-widget">
+                    <div class="widget-header">
+                        <div class="widget-title">Recommended Rides</div>
+                    </div>
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Office Express</div>
+                            <div class="ride-time">$12.50</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>4 seats • 5 min away</div>
+                            <div>Most popular</div>
+                        </div>
+                    </div>
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Executive Car</div>
+                            <div class="ride-time">$18.75</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>4 seats • 8 min away</div>
+                            <div>Complimentary water</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div id="profile-page" class="page">
+                <h2 class="page-title">My Profile</h2>
+                <div class="profile-header">
+                    <div class="profile-avatar">AM</div>
+                    <div class="profile-info">
+                        <h2>Alex Morgan</h2>
+                        <p>Software Engineer • Tech Division</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Rides</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">83%</div>
+                        <div class="stat-label">On Time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">4.8</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                </div>
+
+                <div class="ride-widget">
+                    <div class="widget-header">
+                        <div class="widget-title">My Preferences</div>
+                    </div>
+                    <div class="ride-card">
+                        <div class="ride-info">
+                            <div class="ride-destination">Preferred Ride Type</div>
+                            <div class="ride-time">Executive</div>
+                        </div>
+                        <div class="ride-details">
+                            <div>Payment Method</div>
+                            <div>Corporate Account</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-history"></i></div>
+                        <div class="action-text">Ride History</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-credit-card"></i></div>
+                        <div class="action-text">Payment</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-star"></i></div>
+                        <div class="action-text">Rewards</div>
+                    </button>
+                    <button class="action-btn">
+                        <div class="action-icon"><i class="fas fa-question-circle"></i></div>
+                        <div class="action-text">Support</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <a href="#" class="nav-item active" data-page="home-page">
+                <i class="fas fa-home nav-icon"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item" data-page="ride-page">
+                <i class="fas fa-car nav-icon"></i>
+                <span>Rides</span>
+            </a>
+            <a href="#" class="nav-item" data-page="profile-page">
+                <i class="fas fa-user nav-icon"></i>
+                <span>Profile</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Update date and time
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('en-US', options);
+            const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            document.querySelector('.date-time').textContent = `${dateString} • ${timeString}`;
+            document.getElementById('current-time').textContent = timeString;
+        }
+        
+        // Initial call
+        updateDateTime();
+        
+        // Update every minute
+        setInterval(updateDateTime, 60000);
+        
+        // Navigation functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all items
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.style.display = 'none';
+                });
+                
+                // Show the selected page
+                const pageId = this.getAttribute('data-page');
+                document.getElementById(pageId).style.display = 'block';
+                
+                // Scroll to top
+                document.querySelector('.main-content').scrollTop = 0;
+            });
+        });
+        
+        // Quick action buttons - navigate to ride page
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.style.display = 'none';
+                });
+                
+                // Show ride page
+                document.getElementById('ride-page').style.display = 'block';
+                
+                // Update navigation
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                    if (navItem.getAttribute('data-page') === 'ride-page') {
+                        navItem.classList.add('active');
+                    }
+                });
+                
+                // Scroll to top
+                document.querySelector('.main-content').scrollTop = 0;
+            });
+        });
+        
+        // Prevent elastic scrolling on iOS
+        document.body.addEventListener('touchmove', function(e) {
+            if (e.target === document.querySelector('.main-content')) return;
+            e.preventDefault();
+        }, { passive: false });
+    </script>
+</body>
+</html>
