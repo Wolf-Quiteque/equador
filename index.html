@@ -752,15 +752,7 @@
 <body>
     <div class="device-frame">
         <!-- Status Bar -->
-        <div class="status-bar">
-            <div class="time" id="current-time">4:20 PM</div>
-            <div class="icons">
-                <i class="fas fa-signal"></i>
-                <i class="fas fa-wifi"></i>
-                <i class="fas fa-battery-full"></i>
-            </div>
-        </div>
-
+      
         <!-- App Header -->
         <div class="app-header">
             <div class="logo">
@@ -1507,21 +1499,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Update date and time
-        function updateDateTime() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const dateString = now.toLocaleDateString('en-US', options);
-            const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-            document.querySelector('.date-time').textContent = `${dateString} • ${timeString}`;
-            document.getElementById('current-time').textContent = timeString;
-        }
-        
-        // Initial call
-        updateDateTime();
-        
-        // Update every minute
-        setInterval(updateDateTime, 60000);
-        
+       
         // Navigation functionality
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function(e) {
